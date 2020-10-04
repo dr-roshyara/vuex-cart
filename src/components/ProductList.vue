@@ -11,7 +11,7 @@
 </template>
 <script>
  import shop from '@/Api/shop';
- import store from '@/store'
+ import store from '@/store' 
 export default {
    
     // data(){
@@ -20,8 +20,8 @@ export default {
     //     }
     // },
     computed:{
-        products(){
-            return store.state.products;
+        products(){ 
+          return store.getters.availableProducts
         }
     },
     created(){
