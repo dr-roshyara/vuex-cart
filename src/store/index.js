@@ -51,7 +51,7 @@ export default createStore({
       addProductTocart(context, product)
       {
         if(product.inventory>0){
-          const cartItem =context.state.cart.find(item=>item.id=product.id)
+          const cartItem =context.state.cart.find(item=>item.id===product.id)
           if(!cartItem){
             //if 
               context.commit('pushProductToCart', product.id)
@@ -68,8 +68,32 @@ export default createStore({
   getters:{
     availableProducts:(state)=>{
       return state.products.filter(product=>product.inventory>0); 
-  }
-},
+    },
+      //next 
+      cartProducts(state){
+        return state.cart.map(cartItem=>{
+          const product =state.products.find( product=> product.id===cartItem.id);
+          return {
+            title: product.title, 
+            price: product.price,
+            quantity: cartItem.quantity,
+          }
+        });
+      },
+      //next 
+      cartTotal(state, getters){
+        // let total =0;
+        // getters.cartProducts.array.forEach(product => {
+            
+        //   total +=product.price*product.quantity;
+          
+        // });
+       return  getters.cartProducts.reduce((total,product)=>total+product.price*product.quantity,0);
+        //return 1;
+      }
+      //next 
+  },
+  
   modules: {
   }
 })
