@@ -9,6 +9,9 @@
               </li>
           </ul> 
           <p stayle=" padding:2px; margin:2rem;">  Total : {{ total }} </p>
+
+          <button @click="$store.dispatch('checkout')"> Checkout</button>
+          <p v-if="$store.state.checkoutStatus"> {{$store.state.checkoutStatus}}</p>
       
     </div> 
 </template>

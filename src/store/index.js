@@ -3,7 +3,8 @@ import shop from '@/Api/shop'
 export default createStore({
   state: {
     products: [],
-    cart :[]
+    cart :[],
+    checkoutStatus:null,
   },
 
   mutations: {
@@ -24,7 +25,17 @@ export default createStore({
     //next 
     decrementProductInventory(state,product){
       product.inventory--;
+    },
+    //next 
+    emptyCart(state){
+      state.cart=[];
+    },
+    //next 
+    setCheckoutStatus(state,status){
+      state.checkoutStatus =status
     }
+  
+
   }, 
   actions: {
         // actions are the same as methods. 
@@ -61,8 +72,21 @@ export default createStore({
           }
           context.commit('decrementProductInventory',product)
         }
-      }
+      },
       //end of function 
+      checkout({state, commit}){
+        shop.buyProducts(
+          state.cart,
+          ()=>{
+           commit('emptyCart');
+           commit('setCheckoutStatus','success');
+          },
+          ()=>{
+            commit('setCheckoutStatus','fail');
+          }
+        )
+      },
+
       
   },
   getters:{
@@ -90,7 +114,9 @@ export default createStore({
         // });
        return  getters.cartProducts.reduce((total,product)=>total+product.price*product.quantity,0);
         //return 1;
-      }
+      },
+      //next
+      
       //next 
   },
   
