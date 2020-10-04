@@ -10,7 +10,7 @@
     </div>
 </template>
 <script>
- import shop from '@/Api/shop';
+//  import shop from '@/Api/shop';
  import store from '@/store' 
 export default {
    
@@ -25,9 +25,7 @@ export default {
         }
     },
     created(){
-        shop.getProducts(products=>{
-            store.commit('setProducts',products);
-        });
+      store.dispatch('fetchProducts'); 
     }
 
 }; 

@@ -60,4 +60,10 @@
     </script>
 
 #   #However the data create here is tightly coupled to the business logic. 
+    We add vuex  
+    - Delete data in the product vue and add the data from vuex. 
+    - call a created method in productlist.vue
+    - create getters 
+    - create actions . 
+    
 
