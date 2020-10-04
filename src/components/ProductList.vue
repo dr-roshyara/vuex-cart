@@ -1,8 +1,9 @@
 <template >
     <div>
          <h1> Product List</h1>    
-          <ul>
-              <li v-for="(product, index) in products " v-bind:key="index">
+           <img v-if="loading"  src="https://i.imgur.com/JfPpwOA.gif"  alt="">
+          <ul v-else>
+              <li  v-for="(product, index) in products " v-bind:key="index">
                   {{product.title}} - {{ product.price}}€  - {{ product.inventory }}
 
               </li>
@@ -14,18 +15,20 @@
  import store from '@/store' 
 export default {
    
-    // data(){
-    //     return {
-    //         products: [ ]
-    //     }
-    // },
+    data(){
+        return {
+           loading:false
+        }
+    },
     computed:{
         products(){ 
           return store.getters.availableProducts
         }
     },
     created(){
-      store.dispatch('fetchProducts'); 
+        this.loading=true;
+      store.dispatch('fetchProducts')
+      .then(()=>this.loading=false); 
     }
 
 }; 
