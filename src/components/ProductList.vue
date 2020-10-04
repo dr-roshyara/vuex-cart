@@ -3,7 +3,7 @@
          <h1> Product List</h1>    
            <img v-if="loading"  src="https://i.imgur.com/JfPpwOA.gif"  alt="">
           <ul v-else style="background-color: #ffffff ">
-              <li  v-for="(product, index) in products " v-bind:key="index" style="padding:10px;">
+              <li  v-for="(product, index) in allProducts " v-bind:key="index" style="padding:10px;">
                   {{product.title}} - {{ product.price}}€  - {{ product.inventory }}
                   <span>
                       <button 
@@ -20,6 +20,7 @@
 <script>
 //  import shop from '@/Api/shop';
 //  import store from '@/store'  
+import { mapState } from 'vuex'
 export default {
    
     data(){
@@ -27,11 +28,15 @@ export default {
            loading:false
         }
     },
-    computed:{
-        products(){ 
-          return this.$store.getters.availableProducts
-        }
-    },
+    computed:mapState({
+        allProducts: state=>state.products,
+        firstProduct:state=>state.products[0],
+    }),
+    // computed:{
+    //     products(){ 
+    //       return this.$store.getters.availableProducts
+    //     }
+    // },
     created(){
         this.loading=true;
       this.$store.dispatch('fetchProducts')

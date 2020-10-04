@@ -59,18 +59,18 @@ export default createStore({
 
       },
       //next function 
-      addProductTocart(context, product)
+      addProductTocart({state,  commit}, product)
       {
         if(product.inventory>0){
-          const cartItem =context.state.cart.find(item=>item.id===product.id)
+          const cartItem =state.cart.find(item=>item.id===product.id)
           if(!cartItem){
             //if 
-              context.commit('pushProductToCart', product.id)
+              commit('pushProductToCart', product.id)
           }else{
             //else 
-            context.commit('incrementItemQuantity',cartItem)
+            commit('incrementItemQuantity',cartItem)
           }
-          context.commit('decrementProductInventory',product)
+          commit('decrementProductInventory',product)
         }
       },
       //end of function 
@@ -92,6 +92,7 @@ export default createStore({
   getters:{
     availableProducts:(state)=>{
       return state.products.filter(product=>product.inventory>0); 
+      // return state.products;
     },
       //next 
       cartProducts(state){
@@ -116,7 +117,11 @@ export default createStore({
         //return 1;
       },
       //next
-      
+      productIsInStock(){
+        return ((product)=>{
+            product.inventory>0
+        })
+      }
       //next 
   },
   
